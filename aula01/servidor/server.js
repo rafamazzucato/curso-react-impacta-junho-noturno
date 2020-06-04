@@ -16,7 +16,7 @@ const server = createServer(requisicao);
 
 // cria um callback para nos avisar o momento que o servidor terminou de subir
 const servidorNoAr = function(){
-    console.log("Servidor no Ar na porta 3000");
+    console.log("Servidor no ar na porta 3000");
 }
 
 // sobe o servidor na porta 3000 e chama o callback ao finalizar
