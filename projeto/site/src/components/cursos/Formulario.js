@@ -1,8 +1,23 @@
 import React from 'react';
 
 export class CursoFormulario extends React.Component {
+
     render() {
-        const { codigo, descricao, cargaHoraria, preco, categoria } = this.props
+        const {
+            _id,
+            codigo,
+            descricao,
+            cargaHoraria,
+            preco,
+            categoria,
+
+            setCodigo,
+            setDescricao,
+            setCargaHoraria,
+            setPreco,
+            setCategoria,
+
+            salvar } = this.props;
 
         return (
             <div className="border-right pl-3 pr-3">
@@ -17,7 +32,9 @@ export class CursoFormulario extends React.Component {
                             <input type="number"
                                 className="form-control"
                                 id="codigo"
-                                value={codigo} />
+                                value={codigo}
+                                onChange={setCodigo}
+                            />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -28,7 +45,8 @@ export class CursoFormulario extends React.Component {
                         <div className="col-sm-9">
                             <input type="text"
                                 className="form-control" id="descricao"
-                                value={descricao} />
+                                value={descricao}
+                                onChange={setDescricao} />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -38,7 +56,9 @@ export class CursoFormulario extends React.Component {
                         <div className="col-sm-9">
                             <input type="number"
                                 className="form-control" id="cargaHoraria"
-                                value={cargaHoraria} />
+                                value={cargaHoraria}
+                                onChange={setCargaHoraria}
+                            />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -46,9 +66,10 @@ export class CursoFormulario extends React.Component {
                             className="col-sm-3 col-form-label">
                             Preço:</label>
                         <div className="col-sm-9">
-                            <input type="text"
+                            <input type="number"
                                 className="form-control" id="preco"
-                                value={preco} />
+                                value={preco}
+                                onChange={setPreco} />
                         </div>
                     </div>
                     <div className="form-group row">
@@ -56,7 +77,8 @@ export class CursoFormulario extends React.Component {
                             className="col-sm-3 col-form-label">Categoria:</label>
                         <div className="col-sm-9">
                             <select className="form-control" id="categoria"
-                                value={categoria} >
+                                value={categoria}
+                                onChange={setCategoria} >
                                 <option>INFORMATICA</option>
                                 <option>ENGENHARIA</option>
                                 <option>ADMINISTRACAO</option>
@@ -66,9 +88,10 @@ export class CursoFormulario extends React.Component {
                     </div>
                     <div className="form-group row">
                         <button
-                            className="btn btn-primary ml-3 mb-3">
-                            Adicionar
-                    </button>
+                            className="btn btn-primary ml-3 mb-3"
+                            onClick={salvar}>
+                            { _id ? 'Atualizar' : 'Adicionar'}
+                        </button>
                     </div>
                 </form>
             </div>
