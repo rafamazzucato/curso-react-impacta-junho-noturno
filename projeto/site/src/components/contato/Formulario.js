@@ -1,46 +1,50 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import axios from 'axios';
-import { 
-    setData, 
-    setNome, 
-    setEmail, 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {
+    setData,
+    setNome,
+    setEmail,
     setAssunto,
-    limparFormContato
+    limparFormContato,
+    adicionarContato
 } from '../../actions/contato';
-
-const URL = 'http://localhost:3200/api/contatos'
 
 const ContatoFormulario = (props) => {
 
-    const { data, nome, email, assunto, curso,
-            setData, setNome, setEmail, setAssunto,
-            limparFormContato   
+    const { data, nome, email, assunto, curso, msgSucesso, msgErro,
+        setData, setNome, setEmail, setAssunto,
+        limparFormContato, adicionarContato
     } = props;
 
-    const adicionar = async(e) => {
-        try{
-            e.preventDefault();
-            
-            if(!data || !nome || !email || !assunto){
-                alert('Favor preencher todos os campos');
-                return;
-            }
-
-            await axios.post(URL, {data, nome, email, assunto, curso});
-            alert('Contato salvo com sucesso!');
-            limparFormContato();
-        }catch(error){
-            console.log(error);
-            alert('Ocorreu erro ao enviar contato.');
-        }
+    const adicionar = async (e) => {
+        e.preventDefault();
+        await adicionarContato(data,nome, email, assunto, curso);
     }
 
+    const limpar = e => {
+        e.preventDefault();
+        limparFormContato();
+    }
 
     return (
         <div>
             <h3 className="border-bottom">Formulário</h3>
+
+            { msgSucesso ? 
+                <div className="alert alert-success" role="alert">
+                    <strong>Parabéns</strong> {msgSucesso}
+                </div>
+            : null
+            }
+
+            { msgErro ? 
+                <div className="alert alert-danger" role="alert">
+                    <strong>Ops!</strong> {msgErro}
+                </div>
+            : null
+            }
+
             <form>
                 <div className="form-group row">
                     <label htmlFor="data"
@@ -86,7 +90,11 @@ const ContatoFormulario = (props) => {
                     <button className="btn btn-primary ml-3 mb-3"
                         onClick={adicionar}>
                         Adicionar
-               </button>
+                    </button>
+                    <button className="btn btn-secondary ml-3 mb-3"
+                        onClick={limpar}>
+                        Limpar
+                    </button>
                 </div>
             </form>
         </div>
@@ -94,11 +102,13 @@ const ContatoFormulario = (props) => {
 }
 
 const mapStoreToProps = store => ({
-    data : store.contato.data,
-    nome : store.contato.nome,
-    email : store.contato.email,
-    assunto : store.contato.assunto,
-    curso : store.contato.curso
+    data: store.contato.data,
+    nome: store.contato.nome,
+    email: store.contato.email,
+    assunto: store.contato.assunto,
+    curso: store.contato.curso,
+    msgSucesso : store.contato.msgSucesso,
+    msgErro : store.contato.msgErro
 });
 
 const mapActionsToProps = dispatch => (bindActionCreators({
@@ -106,8 +116,9 @@ const mapActionsToProps = dispatch => (bindActionCreators({
     setNome,
     setEmail,
     setAssunto,
-    limparFormContato
+    limparFormContato,
+    adicionarContato
 }, dispatch));
 
 const conectado = connect(mapStoreToProps, mapActionsToProps)(ContatoFormulario);
-export {conectado as ContatoFormulario}
+export { conectado as ContatoFormulario }
