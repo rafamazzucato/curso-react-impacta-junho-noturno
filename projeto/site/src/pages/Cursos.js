@@ -4,7 +4,7 @@ import { CursoFormulario } from '../components/cursos/Formulario';
 import { CursoLista } from '../components/cursos/Lista';
 import axios from 'axios';
 
-const URL = 'http://localhost:3200/api/cursos'
+const URL = 'http://localhost:3200/api/cursos';
 
 export class CursoPage extends React.Component {
 
@@ -166,6 +166,7 @@ export class CursoPage extends React.Component {
                             lista={lista}
                             excluir={excluir}
                             selecionar={selecionar}
+                            isAdmin={true}
                         />
                     </div>
                 </div>
