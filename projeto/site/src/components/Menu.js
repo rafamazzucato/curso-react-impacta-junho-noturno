@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import axios from 'axios';
-
-const URL = 'http://localhost:3200/api/cursos';
-
-export const Menu = _ => {
-
-    const [lista, setLista] = useState([]);
-
-    useEffect(() => {
-        async function fetchData() {
-            const result = await axios.get(URL);
-            setLista(result.data);
-        }
-        fetchData();
-    }, [setLista]);
+const Menu = props => {
+    const{cursos} = props;
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,7 +21,7 @@ export const Menu = _ => {
             <div className="collapse navbar-collapse" id="navbarContent">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/cursos">Cursos{lista && lista.length > 0 ? `(${lista.length})` : ''}</Link>
+                        <Link className="nav-link" to="/cursos">Cursos{cursos && cursos.length > 0 ? `(${cursos.length})` : ''}</Link>
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/contato">Contato</Link>
@@ -42,3 +30,10 @@ export const Menu = _ => {
         </nav>
     )
 };
+
+const mapStoreToProps = store => ({
+    cursos: store.cursos.lista
+});
+
+const conectado = connect(mapStoreToProps, null)(Menu);
+export { conectado as Menu};

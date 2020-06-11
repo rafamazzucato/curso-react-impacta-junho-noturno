@@ -17,7 +17,6 @@ export class CursoPage extends React.Component {
         this.setPreco = this.setPreco.bind(this);
         this.setCategoria = this.setCategoria.bind(this);
         this.salvar = this.salvar.bind(this);
-        this.excluir = this.excluir.bind(this);
         this.selecionar = this.selecionar.bind(this);
     }
 
@@ -35,19 +34,6 @@ export class CursoPage extends React.Component {
     }
 
     state = this.initialState
-
-    componentDidMount(){
-        this.getLista();
-    }
-
-    async getLista(){
-        try{
-            const result = await axios.get(URL);
-            this.setState({lista: result.data})
-        }catch(e){
-            console.log(e);
-        }
-    }
 
     setCodigo(e){
         this.setState({codigo: e.target.value});
@@ -80,19 +66,7 @@ export class CursoPage extends React.Component {
             this.limpar(); 
         }
 
-        await this.getLista();
-    }
-
-    async excluir(_id){
-        try{
-            if(window.confirm('Deseja realmente deletar este curso?')){
-                await axios.delete(URL+'/'+_id);
-                this.showMsg('Curso deletado com sucesso', false);
-            }
-        }catch(e){
-            console.log(e);
-            alert('Ocorreu um erro ao deletar curso');
-        }
+        //await this.getLista();
     }
 
     async salvar(e){
@@ -163,8 +137,6 @@ export class CursoPage extends React.Component {
                     </div>
                     <div className="col-md-6">
                         <CursoLista 
-                            lista={lista}
-                            excluir={excluir}
                             selecionar={selecionar}
                             isAdmin={true}
                         />
