@@ -1,6 +1,18 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export class CursoFormulario extends React.Component {
+import {
+    setCodigo,
+    setDescricao,
+    setCargaHoraria,
+    setCategoria,
+    setPreco,
+    limpar,
+    salvar
+} from '../../actions/cursos';
+
+class CursoFormulario extends React.Component {
 
     render() {
         const {
@@ -17,8 +29,10 @@ export class CursoFormulario extends React.Component {
             setPreco,
             setCategoria,
 
-            salvar } = this.props;
+            salvar,
+            limpar } = this.props;
 
+            console.log(this.props);
         return (
             <div className="border-right pl-3 pr-3">
                 <h3 className="border-bottom">Formulário</h3>
@@ -89,8 +103,13 @@ export class CursoFormulario extends React.Component {
                     <div className="form-group row">
                         <button
                             className="btn btn-primary ml-3 mb-3"
-                            onClick={salvar}>
+                            onClick={e => salvar(e, _id, codigo, descricao, cargaHoraria, preco, categoria)}>
                             { _id ? 'Atualizar' : 'Adicionar'}
+                        </button>
+                        <button
+                            className="btn btn-secondary ml-3 mb-3"
+                            onClick={limpar}>
+                            { _id ? 'Cancelar' : 'Limpar'}
                         </button>
                     </div>
                 </form>
@@ -98,3 +117,26 @@ export class CursoFormulario extends React.Component {
         );
     }
 }
+
+const mapStoreToProps = store => ({
+    _id : store.cursos._id,
+    codigo : store.cursos.codigo,
+    descricao : store.cursos.descricao,
+    cargaHoraria : store.cursos.cargaHoraria,
+    preco : store.cursos.preco,
+    categoria : store.cursos.categoria,
+});
+
+const mapActionsToProps = dispatch => bindActionCreators({
+    setCodigo,
+    setDescricao,
+    setCargaHoraria,
+    setCategoria,
+    setPreco,
+    limpar,
+    salvar
+}, dispatch);
+
+const conectado = connect(mapStoreToProps, mapActionsToProps)(CursoFormulario);
+
+export { conectado as CursoFormulario}

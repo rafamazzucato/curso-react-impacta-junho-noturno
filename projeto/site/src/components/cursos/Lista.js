@@ -2,10 +2,10 @@ import React, {useEffect} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 
-import {getListaCursos, excluirCurso} from '../../actions/cursos';
+import {getListaCursos, excluirCurso, selecionarCurso} from '../../actions/cursos';
 
 const CursoLista = props => {
-    const { selecionar, cursos, isAdmin , getListaCursos, excluirCurso} = props;
+    const { selecionarCurso, cursos, isAdmin , getListaCursos, excluirCurso} = props;
 
     useEffect(()=>{
         getListaCursos()
@@ -22,7 +22,7 @@ const CursoLista = props => {
                     {isAdmin ?
                         <td >
                             <button className="btn btn-success mr-1"
-                                onClick={() => selecionar(curso)}>
+                                onClick={() => selecionarCurso(curso)}>
                                 <i className="fa fa-edit"></i>
                             </button>
                             <button className="ml-1 btn btn-danger"
@@ -75,7 +75,8 @@ const mapStoreToProps = store => ({
 
 const mapActionsToProps = dispatch => bindActionCreators({
     getListaCursos,
-    excluirCurso
+    excluirCurso,
+    selecionarCurso
 }, dispatch);
 
 const conectado = connect(mapStoreToProps, mapActionsToProps)(CursoLista);

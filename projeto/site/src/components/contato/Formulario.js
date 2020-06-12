@@ -14,12 +14,12 @@ const ContatoFormulario = (props) => {
 
     const { data, nome, email, assunto, curso, msgSucesso, msgErro,
         setData, setNome, setEmail, setAssunto,
-        limparFormContato, adicionarContato
+        limparFormContato, adicionarContato, cursos
     } = props;
 
     const adicionar = async (e) => {
         e.preventDefault();
-        await adicionarContato(data,nome, email, assunto, curso);
+        await adicionarContato(data, nome, email, assunto, curso);
     }
 
     const limpar = e => {
@@ -31,18 +31,18 @@ const ContatoFormulario = (props) => {
         <div>
             <h3 className="border-bottom">Formulário</h3>
 
-            { msgSucesso ? 
+            {msgSucesso ?
                 <div className="alert alert-success" role="alert">
                     <strong>Parabéns</strong> {msgSucesso}
                 </div>
-            : null
+                : null
             }
 
-            { msgErro ? 
+            {msgErro ?
                 <div className="alert alert-danger" role="alert">
                     <strong>Ops!</strong> {msgErro}
                 </div>
-            : null
+                : null
             }
 
             <form>
@@ -77,6 +77,18 @@ const ContatoFormulario = (props) => {
                     </div>
                 </div>
                 <div className="form-group row">
+                    <label htmlFor="email"
+                        className="col-sm-3 col-form-label">Curso:</label>
+                    <div className="col-sm-9">
+                        <select className="form-control" id="curso">
+                            <option value='-1'>Selecione o curso</option>
+                            {cursos ? cursos.map(i =>(
+                                <option value={i}>{i.descricao}</option>
+                            )) : null}
+                        </select>
+                    </div>
+                </div>
+                <div className="form-group row">
                     <label htmlFor="assunto"
                         className="col-sm-3 col-form-label">Assunto:</label>
                     <div className="col-sm-9">
@@ -107,8 +119,9 @@ const mapStoreToProps = store => ({
     email: store.contato.email,
     assunto: store.contato.assunto,
     curso: store.contato.curso,
-    msgSucesso : store.contato.msgSucesso,
-    msgErro : store.contato.msgErro
+    msgSucesso: store.contato.msgSucesso,
+    msgErro: store.contato.msgErro,
+    cursos: store.cursos.lista
 });
 
 const mapActionsToProps = dispatch => (bindActionCreators({
